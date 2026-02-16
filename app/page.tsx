@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 
 // Dynamically import the Map component with no SSR
 const WorldMap = dynamic(() => import('../components/WorldMap'), {
@@ -46,9 +47,9 @@ export default function Home() {
 
         <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="p-8 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300">
-            <h3 className="text-xl font-bold mb-3 text-indigo-300">Interconexión Síncrona</h3>
+            <h3 className="text-xl font-bold mb-3 text-indigo-300">Registro Global</h3>
             <p className="text-zinc-500 leading-relaxed">
-              Eliminamos las barreras geográficas permitiendo el contacto instantáneo entre docentes con especialidades complementarias.
+              Forma parte de la red académica registrando tu ubicación y especialidad para fomentar la colaboración científica.
             </p>
           </div>
           <div className="p-8 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300">
@@ -65,10 +66,13 @@ export default function Home() {
           </div>
         </div>
 
-        <footer className="mt-32 pt-12 border-t border-white/10 text-center">
+        <footer className="mt-32 pt-12 border-t border-white/10 text-center flex flex-col items-center gap-4">
           <p className="text-zinc-600 text-sm">
             © 2026 Prototipo de Investigación Científica - Entornos Digitales Georreferenciados
           </p>
+          <Link href="/pendientes" className="text-[10px] text-zinc-800 hover:text-indigo-500/50 transition-colors uppercase tracking-[0.2em] font-bold">
+            Acceso Administrativo
+          </Link>
         </footer>
       </main>
     </div>

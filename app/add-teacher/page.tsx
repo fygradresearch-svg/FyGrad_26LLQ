@@ -1,15 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { addTeacher } from '../../lib/teachers';
-import { ArrowLeft, UserPlus, MapPin, Phone, BookOpen, GraduationCap, Navigation } from 'lucide-react';
+import { ArrowLeft, UserPlus, MapPin, Phone, BookOpen, GraduationCap, Globe } from 'lucide-react';
 import Link from 'next/link';
+import { Country, City } from 'country-state-city';
 
 export default function AddTeacherPage() {
     const router = useRouter();
     const [formData, setFormData] = useState({
         nombre: '',
+        countryCode: '',
+        countryName: '',
+        city: '',
         lat: '',
         lng: '',
         perfil: '',
@@ -17,38 +21,42 @@ export default function AddTeacherPage() {
         whatsapp: ''
     });
 
-    const [isLocating, setIsLocating] = useState(false);
+    const countries = useMemo(() => Country.getAllCountries(), []);
 
-    const handleGetCurrentLocation = () => {
-        if (!navigator.geolocation) {
-            alert('La geolocalización no es compatible con tu navegador');
-            return;
-        }
+    const cities = useMemo(() => {
+        if (!formData.countryCode) return [];
+        return City.getCitiesOfCountry(formData.countryCode);
+    }, [formData.countryCode]);
 
-        setIsLocating(true);
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                setFormData({
-                    ...formData,
-                    lat: position.coords.latitude.toString(),
-                    lng: position.coords.longitude.toString()
-                });
-                setIsLocating(false);
-            },
-            (error) => {
-                console.error(error);
-                alert('No se pudo obtener la ubicación. Por favor, asegúrate de dar permisos.');
-                setIsLocating(false);
-            },
-            { enableHighAccuracy: true }
-        );
+    const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const code = e.target.value;
+        const name = countries.find(c => c.isoCode === code)?.name || '';
+        setFormData({
+            ...formData,
+            countryCode: code,
+            countryName: name,
+            city: '',
+            lat: '',
+            lng: ''
+        });
+    };
+
+    const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const cityName = e.target.value;
+        const cityData = (cities || []).find(c => c.name === cityName);
+        setFormData({
+            ...formData,
+            city: cityName,
+            lat: cityData?.latitude || '',
+            lng: cityData?.longitude || ''
+        });
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!formData.lat || !formData.lng) {
-            alert('Por favor, selecciona tu ubicación actual antes de registrar.');
+            alert('Por favor, selecciona un país y ciudad válidos.');
             return;
         }
 
@@ -56,6 +64,8 @@ export default function AddTeacherPage() {
             nombre: formData.nombre,
             lat: parseFloat(formData.lat),
             lng: parseFloat(formData.lng),
+            city: formData.city,
+            country: formData.countryName,
             perfil: formData.perfil,
             especialidad: formData.especialidad,
             whatsapp: formData.whatsapp
@@ -79,47 +89,52 @@ export default function AddTeacherPage() {
                 </Link>
 
                 <header className="mb-12">
-                    <h1 className="text-4xl font-bold mb-4">Registro de <span className="text-green-500">Nuevo Docente</span></h1>
-                    <p className="text-zinc-400">Incorpora un nuevo nodo de conocimiento real al sistema georreferenciado para validar la hipótesis de interconexión global.</p>
+                    <h1 className="text-4xl font-bold mb-4">Registro de <span className="text-green-500">Investigador</span></h1>
+                    <p className="text-zinc-400">Selecciona tu ubicación y únete a la red académica global.</p>
                 </header>
 
                 <form onSubmit={handleSubmit} className="space-y-6 bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-md">
                     {/* Ubicación Section */}
                     <div className="p-6 rounded-2xl bg-indigo-500/5 border border-indigo-500/20 space-y-4">
-                        <div className="flex items-center justify-between">
-                            <label className="text-sm font-medium text-indigo-300 flex items-center gap-2">
-                                <MapPin className="w-4 h-4" /> Geolocalización del Docente
-                            </label>
-                            {formData.lat && (
-                                <span className="text-[10px] font-mono text-green-500 bg-green-500/10 px-2 py-1 rounded">
-                                    Ubicación Capturada
-                                </span>
-                            )}
+                        <label className="text-sm font-medium text-indigo-300 flex items-center gap-2">
+                            <MapPin className="w-4 h-4" /> Ubicación Geográfica
+                        </label>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <label className="text-[10px] text-zinc-500 uppercase font-bold tracking-widest">País</label>
+                                <select
+                                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 transition-all text-sm appearance-none cursor-pointer"
+                                    value={formData.countryCode}
+                                    onChange={handleCountryChange}
+                                >
+                                    <option value="">Seleccionar País</option>
+                                    {countries.map(c => (
+                                        <option key={c.isoCode} value={c.isoCode}>{c.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-[10px] text-zinc-500 uppercase font-bold tracking-widest">Ciudad</label>
+                                <select
+                                    disabled={!formData.countryCode}
+                                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 transition-all text-sm appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                    value={formData.city}
+                                    onChange={handleCityChange}
+                                >
+                                    <option value="">{formData.countryCode ? 'Seleccionar Ciudad' : 'Primero elige un país'}</option>
+                                    {(cities || []).map(city => (
+                                        <option key={`${city.name}-${city.latitude}`} value={city.name}>{city.name}</option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
 
-                        <button
-                            type="button"
-                            onClick={handleGetCurrentLocation}
-                            disabled={isLocating}
-                            className={`w-full flex items-center justify-center space-x-2 py-4 rounded-xl border transition-all font-bold ${isLocating
-                                ? 'bg-zinc-800 border-zinc-700 text-zinc-500 animate-pulse'
-                                : 'bg-indigo-500/10 border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/20 active:scale-[0.98]'
-                                }`}
-                        >
-                            <Navigation className={`w-5 h-5 ${isLocating ? 'animate-spin' : ''}`} />
-                            <span>{isLocating ? 'Obteniendo Coordenadas...' : 'Usar mi Ubicación Actual'}</span>
-                        </button>
-
                         {formData.lat && (
-                            <div className="grid grid-cols-2 gap-4 pt-2">
-                                <div className="text-center p-2 rounded-lg bg-black/20 border border-white/5">
-                                    <span className="block text-[10px] text-zinc-500 uppercase">Latitud</span>
-                                    <span className="text-sm font-mono text-zinc-300">{parseFloat(formData.lat).toFixed(4)}</span>
-                                </div>
-                                <div className="text-center p-2 rounded-lg bg-black/20 border border-white/5">
-                                    <span className="block text-[10px] text-zinc-500 uppercase">Longitud</span>
-                                    <span className="text-sm font-mono text-zinc-300">{parseFloat(formData.lng).toFixed(4)}</span>
-                                </div>
+                            <div className="flex items-center gap-2 text-[10px] text-green-500/80 font-mono bg-green-500/5 p-2 rounded-lg border border-green-500/10">
+                                <Globe className="w-3 h-3" />
+                                <span>Coordenadas detectadas: {parseFloat(formData.lat).toFixed(4)}, {parseFloat(formData.lng).toFixed(4)}</span>
                             </div>
                         )}
                     </div>
@@ -134,7 +149,7 @@ export default function AddTeacherPage() {
                                 required
                                 type="text"
                                 placeholder="Dr. Pedro Perez"
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:border-green-500/50 outline-none transition-all placeholder:text-zinc-700"
                                 value={formData.nombre}
                                 onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
                             />
@@ -149,7 +164,7 @@ export default function AddTeacherPage() {
                                 required
                                 type="text"
                                 placeholder="IA en Educación"
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:border-green-500/50 outline-none transition-all placeholder:text-zinc-700"
                                 value={formData.especialidad}
                                 onChange={(e) => setFormData({ ...formData, especialidad: e.target.value })}
                             />
@@ -165,7 +180,7 @@ export default function AddTeacherPage() {
                             required
                             type="text"
                             placeholder="+51 987 654 321"
-                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all"
+                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:border-green-500/50 outline-none transition-all placeholder:text-zinc-700"
                             value={formData.whatsapp}
                             onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
                         />
@@ -174,12 +189,12 @@ export default function AddTeacherPage() {
                     {/* Perfil */}
                     <div className="space-y-2">
                         <label className="text-sm font-medium text-zinc-400 flex items-center gap-2">
-                            <BookOpen className="w-4 h-4" /> Resumen del Perfil e Hipótesis
+                            <BookOpen className="w-4 h-4" /> Resumen del Perfil
                         </label>
                         <textarea
                             required
-                            placeholder="Describe la línea de investigación y el aporte al modelo digital..."
-                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 h-32 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all resize-none"
+                            placeholder="Describe tu línea de investigación..."
+                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 h-32 focus:border-green-500/50 outline-none transition-all resize-none placeholder:text-zinc-700"
                             value={formData.perfil}
                             onChange={(e) => setFormData({ ...formData, perfil: e.target.value })}
                         />
@@ -187,10 +202,14 @@ export default function AddTeacherPage() {
 
                     <button
                         type="submit"
-                        className="w-full bg-green-500 hover:bg-green-600 text-black font-bold py-4 rounded-2xl shadow-xl shadow-green-500/10 transition-all transform active:scale-[0.98] mt-4"
+                        className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-xl shadow-indigo-500/20 transition-all transform active:scale-[0.98] mt-4"
                     >
-                        Registrar Docente en la Red Global
+                        Completar Registro
                     </button>
+
+                    <p className="text-[10px] text-zinc-500 text-center uppercase tracking-widest font-bold px-4">
+                        Tu perfil será validado por un administrador antes de aparecer en el mapa global.
+                    </p>
                 </form>
             </div>
         </div>
