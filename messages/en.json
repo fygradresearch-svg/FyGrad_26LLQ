@@ -20,7 +20,8 @@
             }
         },
         "footer": "© 2026 Scientific Research Prototype - Georeferenced Digital Environments",
-        "adminAccess": "Administrative Access"
+        "adminAccess": "Administrative Access",
+        "studyLink": "Study Details"
     },
     "WorldMap": {
         "syncing": "Synchronizing Global Nodes...",

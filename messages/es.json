@@ -20,7 +20,8 @@
             }
         },
         "footer": "© 2026 Prototipo de Investigación Científica - Entornos Digitales Georreferenciados",
-        "adminAccess": "Acceso Administrativo"
+        "adminAccess": "Acceso Administrativo",
+        "studyLink": "Detalle del Estudio"
     },
     "WorldMap": {
         "syncing": "Sincronizando Nodos Globales...",

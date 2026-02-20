@@ -25,24 +25,14 @@ export default function Home() {
   return (
     <div className="h-screen w-full bg-black text-white overflow-hidden flex flex-col">
       {/* HUD / Navigation Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-gradient-to-b from-black/80 to-transparent backdrop-blur-sm pointer-events-none">
-        <div className="flex items-center gap-4 pointer-events-auto">
-          <div className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-indigo-300 uppercase tracking-widest flex items-center gap-2">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
-            </span>
-            {t('badge')}
-          </div>
-        </div>
-
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-end px-6 py-4 pointer-events-none">
         <div className="flex items-center gap-6 pointer-events-auto">
           <Link
             href="/details"
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-sm font-medium"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 border border-white/10 hover:bg-white/20 hover:scale-105 backdrop-blur-md transition-all text-sm font-medium shadow-xl shadow-black/50"
           >
             <Info className="w-4 h-4" />
-            <span className="hidden sm:inline">Info</span>
+            <span className="hidden sm:inline">{t('studyLink')}</span>
           </Link>
 
           <div className="flex gap-4 border-l border-white/10 pl-6">
@@ -53,7 +43,7 @@ export default function Home() {
       </header>
 
       {/* Full Screen Map Container */}
-      <main className="flex-1 w-full relative">
+      <main className="flex-1 w-full relative h-full min-h-0">
         <WorldMap />
       </main>
 

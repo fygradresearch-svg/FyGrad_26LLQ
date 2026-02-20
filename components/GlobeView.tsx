@@ -43,8 +43,8 @@ export default function GlobeView({ dimensions, teachers, onPointClick, globeRef
             name: data.displayName,
             ...data,
             color: data.members.some(m => m.isReal) ? '#22c55e' : '#f472b6',
-            size: 1.5 + Math.sqrt(data.count) * 0.8,
-            altitude: 0.04 + (data.count * 0.005)
+            size: 1.0 + Math.sqrt(data.count) * 0.5,
+            altitude: 0.02 + (data.count * 0.003)
         }));
     }, [teachers]);
 
@@ -72,14 +72,14 @@ export default function GlobeView({ dimensions, teachers, onPointClick, globeRef
             labelLat="lat"
             labelLng="lng"
             labelText={(d: any) => `${d.name} (${d.count})`}
-            labelSize={1.8}
-            labelDotRadius={0.4}
+            labelSize={1.2}
+            labelDotRadius={0.3}
             labelColor={() => '#ffffff'}
             labelResolution={3}
             labelAltitude={(d: any) => d.altitude + 0.01}
 
             atmosphereColor="#4f46e5"
-            atmosphereAltitude={0.25}
+            atmosphereAltitude={0.15}
 
             onPointClick={(cluster: any) => {
                 if (cluster.members.length > 0) {

@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { LocationPoint } from '../lib/constants';
 import { getTeachers } from '../lib/teachers';
-import { MessageCircle, X, Navigation, UserPlus } from 'lucide-react';
+import { Navigation, Globe, Languages, X, Search, UserPlus } from 'lucide-react';
 import { Link } from '../i18n/routing';
 import ProfileModal from './ProfileModal';
 import TeacherSidebar from './TeacherSidebar';
@@ -20,6 +20,7 @@ export default function WorldMap3D() {
     const [teachers, setTeachers] = useState<LocationPoint[]>([]);
     const [selectedPoint, setSelectedPoint] = useState<LocationPoint | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -32,27 +33,35 @@ export default function WorldMap3D() {
     useEffect(() => {
         if (!isMounted) return;
 
-        const updateDimensions = () => {
-            if (containerRef.current) {
-                setDimensions({
-                    width: containerRef.current.clientWidth,
-                    height: containerRef.current.clientHeight
-                });
+        const observer = new ResizeObserver((entries) => {
+            for (let entry of entries) {
+                const { width, height } = entry.contentRect;
+                setDimensions({ width, height });
             }
-        };
+        });
 
-        // Delay expansion for smooth entry
-        const resizeTimer = setTimeout(updateDimensions, 100);
+        if (containerRef.current) {
+            observer.observe(containerRef.current);
+        }
 
-        window.addEventListener('resize', updateDimensions);
+        // Set initial camera position after a short delay
+        const timer = setTimeout(() => {
+            if (globeRef.current) {
+                globeRef.current.pointOfView({ lat: 10, lng: 0, altitude: 2.8 }, 1500);
+                globeRef.current.controls().autoRotate = true;
+                globeRef.current.controls().autoRotateSpeed = 0.5;
+            }
+        }, 1000);
+
         return () => {
-            window.removeEventListener('resize', updateDimensions);
-            clearTimeout(resizeTimer);
+            observer.disconnect();
+            clearTimeout(timer);
         };
     }, [isMounted]);
 
     const handleSelectTeacher = (teacher: LocationPoint) => {
         setSelectedPoint(teacher);
+        setIsSidebarOpen(false); // Close sidebar on selection (mobile)
         if (globeRef.current) {
             globeRef.current.pointOfView({
                 lat: teacher.lat,
@@ -72,12 +81,40 @@ export default function WorldMap3D() {
     );
 
     return (
-        <div className="flex flex-col lg:flex-row gap-0 w-full h-full animate-fade-in relative z-20">
-            {/* GLOBE SECTION */}
-            <div ref={containerRef} className="flex-1 min-h-[500px] relative group order-2 lg:order-1">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-indigo-500/5 pointer-events-none z-10" />
+        <div className="flex flex-col lg:flex-row gap-6 w-full h-[calc(100vh-80px)] lg:h-full max-w-[1600px] mx-auto animate-fade-in relative z-20 p-4 lg:p-6">
+            {/* MOBILE TOGGLE (Floating) */}
+            <button
+                onClick={() => setIsSidebarOpen(true)}
+                className="lg:hidden fixed bottom-10 left-10 z-50 bg-indigo-600 text-white p-4 rounded-full shadow-2xl active:scale-95 transition-all"
+            >
+                <Search className="w-6 h-6" />
+            </button>
 
-                {dimensions.width > 0 && (
+            {/* SIDEBAR SECTION */}
+            <div className={`
+                fixed inset-y-0 left-0 z-50 w-full sm:w-85 lg:static lg:w-96 lg:translate-x-0 transition-transform duration-300 ease-in-out
+                ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+                lg:flex-shrink-0
+            `}>
+                {isSidebarOpen && (
+                    <div className="lg:hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[-1]" onClick={() => setIsSidebarOpen(false)} />
+                )}
+                <TeacherSidebar
+                    teachers={teachers}
+                    selectedPoint={selectedPoint}
+                    searchTerm={searchTerm}
+                    onSearchChange={setSearchTerm}
+                    onSelectTeacher={handleSelectTeacher}
+                    onHoverTeacher={() => { }}
+                    onClose={() => setIsSidebarOpen(false)}
+                />
+            </div>
+
+            {/* GLOBE SECTION (Back in card/window) */}
+            <div ref={containerRef} className="flex-1 h-full min-h-[400px] rounded-[2.5rem] overflow-hidden glass-morphism relative group border border-white/10 shadow-3xl">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-indigo-500/10 pointer-events-none z-10" />
+
+                {dimensions.width > 0 && dimensions.height > 0 && (
                     <GlobeView
                         dimensions={dimensions}
                         teachers={teachers}
@@ -87,10 +124,12 @@ export default function WorldMap3D() {
                 )}
 
                 {/* OVERLAYS */}
-                <div className="absolute top-6 left-6 z-30">
-                    <Link href="/add-teacher" className="flex items-center space-x-2 bg-indigo-500 hover:bg-indigo-600 text-white px-5 py-3 rounded-xl shadow-xl shadow-indigo-500/20 transition-all font-semibold active:scale-95">
-                        <UserPlus className="w-5 h-5" />
-                        <span>{t('register')}</span>
+                <div className="absolute bottom-8 right-8 z-30">
+                    <Link href="/add-teacher" className="flex items-center space-x-3 bg-indigo-500/90 hover:bg-indigo-500 text-white px-5 py-3 sm:px-6 sm:py-4 rounded-2xl shadow-2xl shadow-indigo-500/40 transition-all font-bold active:scale-95 backdrop-blur-md group hover:translate-y-[-4px]">
+                        <div className="bg-white/20 p-2 rounded-lg group-hover:bg-white/30 transition-colors">
+                            <UserPlus className="w-5 h-5" />
+                        </div>
+                        <span className="text-base sm:text-lg tracking-tight">{t('register')}</span>
                     </Link>
                 </div>
 
@@ -101,16 +140,6 @@ export default function WorldMap3D() {
                     />
                 )}
             </div>
-
-            {/* SIDEBAR SECTION */}
-            <TeacherSidebar
-                teachers={teachers}
-                selectedPoint={selectedPoint}
-                searchTerm={searchTerm}
-                onSearchChange={setSearchTerm}
-                onSelectTeacher={handleSelectTeacher}
-                onHoverTeacher={() => { }} // Could add hover effect back if needed
-            />
         </div>
     );
 }
