@@ -30,8 +30,13 @@ export default function ProfileModal({ selectedPoint, onClose }: ProfileModalPro
                         <div className="flex-1 overflow-hidden">
                             <h3 className="font-bold text-lg text-white leading-tight truncate">{selectedPoint.nombre}</h3>
                             <div className="flex items-center gap-1.5 mt-1">
-                                <span className={`text-[9px] font-black uppercase tracking-tighter px-1.5 py-0.5 rounded ${selectedPoint.isReal ? 'bg-green-500/20 text-green-400' : 'bg-indigo-500/10 text-indigo-400'}`}>
-                                    {selectedPoint.isReal ? t('verified') : t('simulated')}
+                                <span className={`text-[9px] font-black uppercase tracking-tighter px-1.5 py-0.5 rounded ${selectedPoint.isReal
+                                    ? (selectedPoint.isActive ? 'bg-green-500/20 text-green-400' : 'bg-amber-500/20 text-amber-400')
+                                    : 'bg-indigo-500/10 text-indigo-400'
+                                    }`}>
+                                    {selectedPoint.isReal
+                                        ? (selectedPoint.isActive ? t('verified') : t('pending'))
+                                        : t('simulated')}
                                 </span>
                                 <span className="text-[10px] text-zinc-500 font-bold">{selectedPoint.city}</span>
                             </div>

@@ -35,6 +35,7 @@
     },
     "Modal": {
         "verified": "Verificado",
+        "pending": "Pendiente de Validación",
         "simulated": "Simulado",
         "specialty": "Especialidad",
         "language": "Idioma",

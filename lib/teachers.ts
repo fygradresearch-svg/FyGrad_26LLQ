@@ -86,13 +86,15 @@ const FAKE_TEACHERS = (() => {
     return teachers;
 })();
 
-export const getTeachers = (includeInactive = false): LocationPoint[] => {
+export const getTeachers = (includeInactive = true): LocationPoint[] => {
     if (typeof window === 'undefined') return FAKE_TEACHERS;
     const stored = localStorage.getItem(APP_CONFIG.storageKey);
     const realTeachers: LocationPoint[] = stored ? JSON.parse(stored) : [];
 
-    const filteredReal = includeInactive ? realTeachers : realTeachers.filter(t => t.isActive);
-    return [...filteredReal.map(t => ({ ...t, isReal: true })), ...FAKE_TEACHERS];
+    // Now we include all real teachers by default for the map, but marked as isReal
+    const mappedReal = realTeachers.map(t => ({ ...t, isReal: true }));
+
+    return [...mappedReal, ...FAKE_TEACHERS];
 };
 
 export const addTeacher = (teacher: Omit<LocationPoint, 'id' | 'isReal' | 'isActive'>) => {

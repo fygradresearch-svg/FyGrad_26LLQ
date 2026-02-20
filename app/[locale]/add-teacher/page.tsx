@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { useRouter, Link } from '../../../i18n/routing';
 import { addTeacher } from '../../../lib/teachers';
-import { MapPin, User, BookOpen, GraduationCap, Globe, ArrowLeft, Mail, Linkedin, Languages, UserPlus } from 'lucide-react';
+import { MapPin, User, BookOpen, GraduationCap, Globe, ArrowLeft, Mail, Linkedin, Languages, UserPlus, CheckCircle2 } from 'lucide-react';
 import { Country, City } from 'country-state-city';
 import { useTranslations } from 'next-intl';
 
@@ -23,6 +23,8 @@ export default function AddTeacherPage() {
         email: '',
         linkedin: ''
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const countries = useMemo(() => Country.getAllCountries(), []);
 
@@ -55,13 +57,19 @@ export default function AddTeacherPage() {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!formData.lat || !formData.lng) {
+            // Se puede mejorar esto con un estado de error local en lugar de alert
             alert(t('alertInvalidLocation'));
             return;
         }
+
+        setIsSubmitting(true);
+
+        // Simular un pequeño delay para feedback premium
+        await new Promise(resolve => setTimeout(resolve, 800));
 
         addTeacher({
             nombre: formData.nombre,
@@ -76,7 +84,11 @@ export default function AddTeacherPage() {
             linkedin: formData.linkedin
         });
 
-        router.push('/');
+        setShowSuccess(true);
+
+        setTimeout(() => {
+            router.push('/');
+        }, 1500);
     };
 
     return (
@@ -248,9 +260,25 @@ export default function AddTeacherPage() {
 
                     <button
                         type="submit"
-                        className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-xl shadow-indigo-500/20 transition-all transform active:scale-[0.98] mt-4"
+                        disabled={isSubmitting || showSuccess}
+                        className={`w-full font-bold py-4 rounded-2xl shadow-xl transition-all transform active:scale-[0.98] mt-4 flex items-center justify-center gap-3 ${showSuccess
+                            ? 'bg-green-500 text-white'
+                            : 'bg-indigo-500 hover:bg-indigo-600 text-white shadow-indigo-500/20'
+                            } disabled:opacity-80 disabled:cursor-not-allowed`}
                     >
-                        {t('form.submit')}
+                        {isSubmitting ? (
+                            <>
+                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                <span>Procesando...</span>
+                            </>
+                        ) : showSuccess ? (
+                            <>
+                                <CheckCircle2 className="w-5 h-5" />
+                                <span>Registro Exitoso</span>
+                            </>
+                        ) : (
+                            t('form.submit')
+                        )}
                     </button>
 
                     <p className="text-[10px] text-zinc-500 text-center uppercase tracking-widest font-bold px-4">

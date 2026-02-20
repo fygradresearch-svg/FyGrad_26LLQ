@@ -38,14 +38,24 @@ export default function GlobeView({ dimensions, teachers, onPointClick, globeRef
             cityGroups[key].members.push(t);
         });
 
-        return Object.entries(cityGroups).map(([key, data], index) => ({
-            id: `cluster-${index}`,
-            name: data.displayName,
-            ...data,
-            color: data.members.some(m => m.isReal) ? '#22c55e' : '#f472b6',
-            size: 1.0 + Math.sqrt(data.count) * 0.5,
-            altitude: 0.02 + (data.count * 0.003)
-        }));
+        return Object.entries(cityGroups).map(([key, data], index) => {
+            const hasReal = data.members.some(m => m.isReal);
+            const allActive = data.members.filter(m => m.isReal).every(m => m.isActive);
+
+            let color = '#f472b6'; // Default fake (pink)
+            if (hasReal) {
+                color = allActive ? '#22c55e' : '#f59e0b'; // Green if all real are active, Orange if any pending
+            }
+
+            return {
+                id: `cluster-${index}`,
+                name: data.displayName,
+                ...data,
+                color,
+                size: 1.0 + Math.sqrt(data.count) * 0.5,
+                altitude: 0.02 + (data.count * 0.003)
+            };
+        });
     }, [teachers]);
 
     return (
@@ -83,7 +93,9 @@ export default function GlobeView({ dimensions, teachers, onPointClick, globeRef
 
             onPointClick={(cluster: any) => {
                 if (cluster.members.length > 0) {
-                    onPointClick(cluster.members[0]);
+                    // Prioritize real teachers in the click
+                    const realTeacher = cluster.members.find((m: any) => m.isReal);
+                    onPointClick(realTeacher || cluster.members[0]);
                 }
             }}
         />
