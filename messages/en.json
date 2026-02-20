@@ -2,7 +2,7 @@
     "HomePage": {
         "loadingMap": "Loading Global Map...",
         "badge": "Academic Research: Hypothesis v1.2",
-        "title": "Digital model for the {span} through a georeferenced digital environment",
+        "title": "Digital model for the <gradient>{titleSpan}</gradient> through a georeferenced digital environment",
         "titleSpan": "international connection of teachers",
         "description": "This platform serves as an experimental prototype to validate the efficiency of geolocated synchronous environments in global academic collaboration and peer-to-peer knowledge transfer.",
         "features": {

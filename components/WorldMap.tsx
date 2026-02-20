@@ -123,15 +123,6 @@ export default function WorldMap3D() {
                     />
                 )}
 
-                {/* OVERLAYS */}
-                <div className="absolute bottom-8 right-8 z-30">
-                    <Link href="/add-teacher" className="flex items-center space-x-3 bg-indigo-500/90 hover:bg-indigo-500 text-white px-5 py-3 sm:px-6 sm:py-4 rounded-2xl shadow-2xl shadow-indigo-500/40 transition-all font-bold active:scale-95 backdrop-blur-md group hover:translate-y-[-4px]">
-                        <div className="bg-white/20 p-2 rounded-lg group-hover:bg-white/30 transition-colors">
-                            <UserPlus className="w-5 h-5" />
-                        </div>
-                        <span className="text-base sm:text-lg tracking-tight">{t('register')}</span>
-                    </Link>
-                </div>
 
                 {selectedPoint && (
                     <ProfileModal

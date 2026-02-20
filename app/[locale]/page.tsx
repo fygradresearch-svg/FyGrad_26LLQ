@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import { Link } from '../../i18n/routing';
 import { useTranslations } from 'next-intl';
-import { Info } from 'lucide-react';
+import { Info, UserPlus } from 'lucide-react';
 
 // Dynamically import the Map component with no SSR
 const WorldMap = dynamic(() => import('../../components/WorldMap'), {
@@ -26,7 +26,15 @@ export default function Home() {
     <div className="h-screen w-full bg-black text-white overflow-hidden flex flex-col">
       {/* HUD / Navigation Header */}
       <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-end px-6 py-4 pointer-events-none">
-        <div className="flex items-center gap-6 pointer-events-auto">
+        <div className="flex items-center gap-4 pointer-events-auto">
+          <Link
+            href="/add-teacher"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-500/80 border border-white/10 hover:bg-indigo-500 hover:scale-105 backdrop-blur-md transition-all text-sm font-bold shadow-xl shadow-indigo-500/20"
+          >
+            <UserPlus className="w-4 h-4" />
+            <span className="hidden sm:inline">{useTranslations('WorldMap')('register')}</span>
+          </Link>
+
           <Link
             href="/details"
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 border border-white/10 hover:bg-white/20 hover:scale-105 backdrop-blur-md transition-all text-sm font-medium shadow-xl shadow-black/50"
