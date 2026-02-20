@@ -2,7 +2,7 @@
     "HomePage": {
         "loadingMap": "Cargando Mapa Global...",
         "badge": "Investigación Académica: Hipótesis v1.2",
-        "title": "Modelo digital para la {span} a través de un entorno digital georeferenciado",
+        "title": "Modelo digital para la <gradient>{titleSpan}</gradient> a través de un entorno digital georeferenciado",
         "titleSpan": "conexión internacional de profesores",
         "description": "Esta plataforma sirve como prototipo experimental para validar la eficiencia de los entornos síncronos geolocalizados en la colaboración académica global y la transferencia de conocimiento entre pares.",
         "features": {

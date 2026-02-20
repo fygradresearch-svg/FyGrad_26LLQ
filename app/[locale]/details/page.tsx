@@ -42,7 +42,8 @@ export default function Details() {
 
                     <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight text-white max-w-5xl leading-tight">
                         {t.rich('title', {
-                            span: (chunks) => <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">{chunks}</span>
+                            titleSpan: t('titleSpan'),
+                            gradient: (chunks) => <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">{chunks}</span>
                         })}
                     </h1>
 
