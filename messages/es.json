@@ -1,0 +1,108 @@
+{
+    "HomePage": {
+        "loadingMap": "Cargando Mapa Global...",
+        "badge": "Investigación Académica: Hipótesis v1.2",
+        "title": "Modelo digital para la {span} a través de un entorno digital georeferenciado",
+        "titleSpan": "conexión internacional de profesores",
+        "description": "Esta plataforma sirve como prototipo experimental para validar la eficiencia de los entornos síncronos geolocalizados en la colaboración académica global y la transferencia de conocimiento entre pares.",
+        "features": {
+            "registration": {
+                "title": "Registro Global",
+                "description": "Forma parte de la red académica registrando tu ubicación y especialidad para fomentar la colaboración científica."
+            },
+            "visualization": {
+                "title": "Visualización Estratégica",
+                "description": "El entorno georreferenciado facilita la identificación de nodos de conocimiento y polos de investigación regional."
+            },
+            "validation": {
+                "title": "Validación de Hipótesis",
+                "description": "Recopilación de métricas sobre la eficacia del modelo en la reducción de la brecha digital en la educación superior."
+            }
+        },
+        "footer": "© 2026 Prototipo de Investigación Científica - Entornos Digitales Georreferenciados",
+        "adminAccess": "Acceso Administrativo"
+    },
+    "WorldMap": {
+        "syncing": "Sincronizando Nodos Globales...",
+        "register": "Registrarse"
+    },
+    "Sidebar": {
+        "title": "Explorador",
+        "searchPlaceholder": "Filtrar por nombre o área...",
+        "noResults": "No hay resultados",
+        "totalNodes": "Nodos Totales"
+    },
+    "Modal": {
+        "verified": "Verificado",
+        "simulated": "Simulado",
+        "specialty": "Especialidad",
+        "language": "Idioma",
+        "academicSummary": "Resumen Académico",
+        "connectLinkedIn": "Ver Perfil de LinkedIn",
+        "sendEmail": "Enviar Correo Electrónico"
+    },
+    "AddTeacher": {
+        "backToMap": "Volver al Mapa Global",
+        "title": "Registro de {span}",
+        "titleSpan": "Investigador",
+        "description": "Selecciona tu ubicación y únete a la red académica global.",
+        "location": {
+            "title": "Ubicación Geográfica",
+            "country": "País",
+            "selectCountry": "Seleccionar País",
+            "city": "Ciudad",
+            "selectCity": "Seleccionar Ciudad",
+            "chooseCountryFirst": "Primero elige un país",
+            "coords": "Coordenadas detectadas: {lat}, {lng}"
+        },
+        "form": {
+            "fullName": "Nombre Completo",
+            "fullNamePlaceholder": "Dr. Pedro Perez",
+            "specialty": "Especialidad Académica",
+            "specialtyPlaceholder": "IA en Educación",
+            "email": "Correo Electrónico",
+            "emailPlaceholder": "correo@ejemplo.com",
+            "linkedin": "Perfil de LinkedIn",
+            "linkedinPlaceholder": "https://linkedin.com/in/usuario",
+            "language": "Idioma Principal",
+            "languages": {
+                "es": "Español",
+                "en": "Inglés",
+                "pt": "Portugués",
+                "fr": "Francés",
+                "de": "Alemán"
+            },
+            "profile": "Resumen del Perfil",
+            "profilePlaceholder": "Describe tu línea de investigación...",
+            "submit": "Completar Registro"
+        },
+        "validationNote": "Tu perfil será validado por un administrador antes de aparecer en el mapa global.",
+        "alertInvalidLocation": "Por favor, selecciona un país y ciudad válidos."
+    },
+    "Admin": {
+        "login": {
+            "restricted": "Acceso Restringido",
+            "description": "Por seguridad, ingresa la clave de administrador para gestionar la red académica.",
+            "passwordPlaceholder": "Contraseña de administrador",
+            "submit": "Acceder al Panel",
+            "backToHome": "Volver al Inicio",
+            "incorrectPassword": "Contraseña incorrecta"
+        },
+        "panel": {
+            "backToMain": "Panel Principal",
+            "badge": "Panel Administrativo",
+            "title": "Validación de {span}",
+            "titleSpan": "Nodos Docentes",
+            "description": "Gestiona y verifica las solicitudes de registro para mantener la integridad de la red académica georreferenciada.",
+            "active": "Activos",
+            "pending": "Pendientes",
+            "noRecords": "No hay registros reales pendientes de validación en este momento.",
+            "newRecord": "Nuevo Registro",
+            "contact": "Contactar",
+            "delete": "Eliminar Registro",
+            "deleteConfirm": "¿Estás seguro de eliminar permanentemente este registro?",
+            "deactivate": "Desactivar",
+            "validate": "Validar y Activar"
+        }
+    }
+}

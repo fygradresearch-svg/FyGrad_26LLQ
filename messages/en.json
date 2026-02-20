@@ -1,0 +1,108 @@
+{
+    "HomePage": {
+        "loadingMap": "Loading Global Map...",
+        "badge": "Academic Research: Hypothesis v1.2",
+        "title": "Digital model for the {span} through a georeferenced digital environment",
+        "titleSpan": "international connection of teachers",
+        "description": "This platform serves as an experimental prototype to validate the efficiency of geolocated synchronous environments in global academic collaboration and peer-to-peer knowledge transfer.",
+        "features": {
+            "registration": {
+                "title": "Global Registry",
+                "description": "Be part of the academic network by registering your location and specialty to foster scientific collaboration."
+            },
+            "visualization": {
+                "title": "Strategic Visualization",
+                "description": "The georeferenced environment facilitates the identification of knowledge nodes and regional research hubs."
+            },
+            "validation": {
+                "title": "Hypothesis Validation",
+                "description": "Collection of metrics on the model's effectiveness in reducing the digital divide in higher education."
+            }
+        },
+        "footer": "© 2026 Scientific Research Prototype - Georeferenced Digital Environments",
+        "adminAccess": "Administrative Access"
+    },
+    "WorldMap": {
+        "syncing": "Synchronizing Global Nodes...",
+        "register": "Register"
+    },
+    "Sidebar": {
+        "title": "Explorer",
+        "searchPlaceholder": "Filter by name or area...",
+        "noResults": "No results found",
+        "totalNodes": "Total Nodes"
+    },
+    "Modal": {
+        "verified": "Verified",
+        "simulated": "Simulated",
+        "specialty": "Specialty",
+        "language": "Language",
+        "academicSummary": "Academic Summary",
+        "connectLinkedIn": "View LinkedIn Profile",
+        "sendEmail": "Send Email"
+    },
+    "AddTeacher": {
+        "backToMap": "Back to Global Map",
+        "title": "Researcher {span}",
+        "titleSpan": "Registration",
+        "description": "Select your location and join the global academic network.",
+        "location": {
+            "title": "Geographic Location",
+            "country": "Country",
+            "selectCountry": "Select Country",
+            "city": "City",
+            "selectCity": "Select City",
+            "chooseCountryFirst": "Choose a country first",
+            "coords": "Coordinates detected: {lat}, {lng}"
+        },
+        "form": {
+            "fullName": "Full Name",
+            "fullNamePlaceholder": "Dr. John Doe",
+            "specialty": "Academic Specialty",
+            "specialtyPlaceholder": "AI in Education",
+            "email": "Email Address",
+            "emailPlaceholder": "email@example.com",
+            "linkedin": "LinkedIn Profile",
+            "linkedinPlaceholder": "https://linkedin.com/in/username",
+            "language": "Primary Language",
+            "languages": {
+                "es": "Spanish",
+                "en": "English",
+                "pt": "Portuguese",
+                "fr": "French",
+                "de": "German"
+            },
+            "profile": "Profile Summary",
+            "profilePlaceholder": "Describe your research line...",
+            "submit": "Complete Registration"
+        },
+        "validationNote": "Your profile will be validated by an administrator before appearing on the global map.",
+        "alertInvalidLocation": "Please select a valid country and city."
+    },
+    "Admin": {
+        "login": {
+            "restricted": "Restricted Access",
+            "description": "For security, please enter the administrator password to manage the academic network.",
+            "passwordPlaceholder": "Administrator password",
+            "submit": "Access Panel",
+            "backToHome": "Back to Home",
+            "incorrectPassword": "Incorrect password"
+        },
+        "panel": {
+            "backToMain": "Main Panel",
+            "badge": "Administrative Panel",
+            "title": "Validation of {span}",
+            "titleSpan": "Teacher Nodes",
+            "description": "Manage and verify registration requests to maintain the integrity of the georeferenced academic network.",
+            "active": "Active",
+            "pending": "Pending",
+            "noRecords": "There are no real records pending validation at this time.",
+            "newRecord": "New Record",
+            "contact": "Contact",
+            "delete": "Delete Record",
+            "deleteConfirm": "Are you sure you want to permanently delete this record?",
+            "deactivate": "Deactivate",
+            "validate": "Validate and Activate"
+        }
+    }
+}

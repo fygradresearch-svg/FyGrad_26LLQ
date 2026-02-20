@@ -76,7 +76,9 @@ const FAKE_TEACHERS = (() => {
             nombre: faker.person.fullName(),
             perfil: ACADEMIC_PROFILES[profileIndex],
             especialidad: SPECIALTIES[profileIndex],
-            whatsapp: faker.phone.number({ style: 'international' }),
+            idioma: faker.helpers.arrayElement(['Español', 'Inglés', 'Portugués', 'Francés', 'Alemán']),
+            linkedin: `https://linkedin.com/in/${faker.person.firstName().toLowerCase()}`,
+            email: faker.internet.email(),
             isReal: false,
             isActive: true
         });

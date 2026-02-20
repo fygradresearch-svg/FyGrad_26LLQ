@@ -5,7 +5,9 @@ export interface LocationPoint {
     nombre: string;
     perfil: string;
     especialidad: string;
-    whatsapp: string;
+    idioma: string;
+    linkedin?: string;
+    email?: string;
     city: string;
     country: string;
     isReal?: boolean;
