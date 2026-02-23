@@ -25,7 +25,7 @@ export default function WorldMap3D() {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsMounted(true);
-            setTeachers(getTeachers());
+            setTeachers(getTeachers(false));
         }, 800);
         return () => clearTimeout(timer);
     }, []);

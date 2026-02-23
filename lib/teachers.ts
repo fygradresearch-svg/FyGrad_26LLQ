@@ -92,7 +92,11 @@ export const getTeachers = (includeInactive = true): LocationPoint[] => {
     const realTeachers: LocationPoint[] = stored ? JSON.parse(stored) : [];
 
     // Now we include all real teachers by default for the map, but marked as isReal
-    const mappedReal = realTeachers.map(t => ({ ...t, isReal: true }));
+    let mappedReal = realTeachers.map(t => ({ ...t, isReal: true }));
+
+    if (!includeInactive) {
+        mappedReal = mappedReal.filter(t => t.isActive);
+    }
 
     return [...mappedReal, ...FAKE_TEACHERS];
 };
